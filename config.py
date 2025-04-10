@@ -2,9 +2,23 @@ import logging
 import logging_loki
 import os
 
+
+# Добавляем в логи данные для фильтрации. Формат: tags: {'thread': 11}
 class LogFilter(logging.Filter):
     def filter(self, record: logging.LogRecord):
+
+        if not hasattr(record, 'tags'):
+            record.tags = {}
+
+        record.tags['function'] = record.funcName
+        record.tags['line'] = record.lineno
+        record.tags['file'] = record.filename
         return True
+
+
+loki_url = os.getenv('LOKI_URL') + '/loki/api/v1/push'
+application = os.getenv('APP_NAME')
+service = os.getenv('SERVICE_NAME')
 
 logger_conf = {
     'version': 1,
@@ -15,9 +29,9 @@ logger_conf = {
         }
     },
     'filters': {
-       'loki_tags': {
-           '()': LogFilter
-       }
+        'loki_tags': {
+            '()': LogFilter
+        }
     },
     'handlers': {
         'console': {
@@ -29,10 +43,10 @@ logger_conf = {
             'class': 'logging_loki.LokiHandler',
             'level': 'DEBUG',
             'formatter': 'console_msg',
-            'url': 'http://localhost:3100/loki/api/v1/push',
-            'tags': {'application': 'grf'},
+            'url': loki_url,
+            'tags': {'application': application, 'service': service},
             'version': '2',
-            # 'filter': ['loki_tags']
+            'filters': ['loki_tags']
         }
     },
 
