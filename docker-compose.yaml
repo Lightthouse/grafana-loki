@@ -12,15 +12,18 @@ services:
     image: grafana/promtail:latest
     volumes:
       - ./promtail-config:/etc/promtail
-      - /var/log:/var/log  # Монтируем директорию с логами
+      - /var/log:/var/log
     command: -config.file=/etc/promtail/promtail-config.yaml
 
   grafana:
     image: grafana/grafana:latest
     ports:
       - "3000:3000"
+    environment:
+      - GF_INSTALL_PLUGINS=frser-sqlite-datasource
     volumes:
       - grafana-storage:/var/lib/grafana
+      - ./grafana-data/db.sqlite3:/app/db.sqlite3:ro  # Mount SQLite database as read-only
     depends_on:
       - loki
 

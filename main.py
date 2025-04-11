@@ -3,8 +3,9 @@ from config import logger_conf
 
 
 # Создаём логгер
-logging.config.dictConfig(logger_conf)
-logger = logging.getLogger("based")
+# logging.config.dictConfig(logger_conf)
+# logger = logging.getLogger("based")
+logger = logging.getLogger('root')
 
 
 class Math:
@@ -25,7 +26,7 @@ def start():
         TwoMath.calc(11)
 
     except Exception as e:
-        logger.error('Последний заезд')
+        logging.error('Последний заезд')
 
 
 if __name__ == "__main__":

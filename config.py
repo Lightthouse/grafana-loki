@@ -54,6 +54,10 @@ logger_conf = {
         'based': {
             'level': 'INFO',
             'handlers': ['loki'],
+        },
+        'root': {
+            'level': 'INFO',
+            'handlers': ['console']
         }
     }
 }
