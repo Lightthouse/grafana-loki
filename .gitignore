@@ -16,3 +16,6 @@ wheels/
 
 # pycahrm
 .idea
+
+#sql
+*.sqlite3

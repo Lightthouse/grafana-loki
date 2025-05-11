@@ -10,9 +10,9 @@ class LogFilter(logging.Filter):
         if not hasattr(record, 'tags'):
             record.tags = {}
 
-        record.tags['function'] = record.funcName
-        record.tags['line'] = record.lineno
-        record.tags['file'] = record.filename
+        record.tags['function'] = getattr(record, 'funcName', 'unknown')
+        record.tags['line'] = getattr(record, 'lineno', 'unknown')
+        record.tags['file'] = getattr(record, 'filename', 'unknown')
         return True
 
 

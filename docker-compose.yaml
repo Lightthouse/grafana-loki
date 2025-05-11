@@ -23,7 +23,6 @@ services:
       - GF_INSTALL_PLUGINS=frser-sqlite-datasource
     volumes:
       - grafana-storage:/var/lib/grafana
-      - ./grafana-data/db.sqlite3:/app/db.sqlite3:ro  # Mount SQLite database as read-only
     depends_on:
       - loki
 
